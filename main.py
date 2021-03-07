@@ -1,7 +1,5 @@
 import pygame
 
-WIDTH, HEIGHT = 900, 600
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Snake!")
 
 ICON = pygame.image.load("icon/snake.png")
@@ -9,9 +7,11 @@ pygame.display.set_icon(ICON)
 
 FPS = 60
 
+DARK_BLUE = (0, 0, 75)
+
 
 def draw_window():
-    # WIN.fill() - insert tuple with RGB values
+    WIN.fill(DARK_BLUE)  # insert tuple with RGB values
     pygame.display.update()
 
 
@@ -23,6 +23,8 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+
+        draw_window()
 
     pygame.quit()
 
