@@ -1,3 +1,3 @@
-#Snake game
+# Snake game
 
-Building simple snake game with AI using A*algo
+Building simple snake game with AI using A* algo
