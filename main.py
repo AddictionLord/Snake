@@ -1,6 +1,7 @@
 import pygame
 import sys
 from snk import *
+from fruit import *
 
 
 class Game:
@@ -24,41 +25,17 @@ class Game:
 
     def __init__(self):
         self.snake = Snake()
+        self.apple = Apple()
         self.main()
-
-
-    def set_movement(self, order):
-        if order == pygame.K_UP:
-            self.snake.move_up()
-        
-        if order == pygame.K_DOWN:
-            self.snake.move_down()
-        
-        if order == pygame.K_LEFT:
-            self.snake.move_left()
-        
-        if order == pygame.K_RIGHT:
-            self.snake.move_right()
-
-
-    def movement(self):
-        if self.snake.move[0]:
-            self.snake.go_up()
-
-        elif self.snake.move[1]:
-            self.snake.go_down()
-
-        elif self.snake.move[2]:
-            self.snake.go_left()
-
-        elif self.snake.move[3]:
-            self.snake.go_right()
-        
+       
 
     def graphics(self):
         Game.WIN.fill(Game.DARK_BLUE)  # insert tuple with RGB values
-        self.movement()
-        Game.WIN.blit(self.snake.head, (self.snake.x, self.snake.y))
+
+        self.apple.draw_apple(Game.WIN)
+        self.snake.movement()
+        self.snake.draw_snake(Game.WIN)
+
         pygame.display.update()
 
 
@@ -76,7 +53,7 @@ class Game:
 
                 if event.type == pygame.KEYDOWN:
                     if event.key in Game.arrows:
-                        self.set_movement(event.key)
+                        self.snake.set_movement(event.key)
 
             self.graphics()
 
