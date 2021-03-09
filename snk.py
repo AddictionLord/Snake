@@ -11,45 +11,28 @@ class Snake:
 
         self.move = [0, 0, 0, 0] # Up, Down, Left, Right
 
-        self.up = False
-        self.down = False
-        self.left = False
-        self.right = False
-
 
     def grow(self):
         self.size += 1
 
     def move_up(self):
-        if not self.down:
-            self.up = True
-            self.down = False
-            self.left = False
-            self.right = False
+        if not self.move[1]:
+            self.move = [1, 0, 0, 0]
 
 
     def move_down(self):
-        if not self.up:
-            self.up = False
-            self.down = True
-            self.left = False
-            self.right = False
+        if not self.move[0]:
+            self.move = [0, 1, 0, 0]
 
 
     def move_left(self):
-        if not self.right:
-            self.up = False
-            self.down = False
-            self.left = True
-            self.right = False
+        if not self.move[3]:
+            self.move = [0, 0, 1, 0]
 
         
     def move_right(self):
-        if not self.left:
-            self.up = False
-            self.down = False
-            self.left = False
-            self.right = True
+        if not self.move[2]:
+            self.move = [0, 0, 0, 1]
 
 
     def go_up(self):

@@ -42,16 +42,16 @@ class Game:
 
 
     def movement(self):
-        if self.snake.up:
+        if self.snake.move[0]:
             self.snake.go_up()
 
-        elif self.snake.down:
+        elif self.snake.move[1]:
             self.snake.go_down()
 
-        elif self.snake.left:
+        elif self.snake.move[2]:
             self.snake.go_left()
 
-        elif self.snake.right:
+        elif self.snake.move[3]:
             self.snake.go_right()
         
 
