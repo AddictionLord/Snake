@@ -13,6 +13,18 @@ class Snake:
     def grow(self):
         self.size += 1
 
+    def move_up(self, move):
+        pass
+
+    def move_down(self, move):
+        pass
+
+    def move_left(self, move):
+        pass
+
+    def move_right(self, move):
+        pass
+
     def go_up(self):
         self.y += 1
 

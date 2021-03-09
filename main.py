@@ -19,13 +19,22 @@ class Game:
 
     FPS = 60
     DARK_BLUE = (0, 0, 75) # RGB Values
+    arrows = [pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN]
+    
 
     def __init__(self):
         self.snake = Snake()
         self.main()
 
+    def movement(self, order):
+        if order == pygame.K_LEFT:
+            move
+        pass
+        
+
     def graphics(self):
         Game.WIN.fill(Game.DARK_BLUE)  # insert tuple with RGB values
+        # self.movement()
         Game.WIN.blit(self.snake.head, (self.snake.x, self.snake.y))
         pygame.display.update()
 
@@ -37,9 +46,14 @@ class Game:
         # Game loop
         while run:
             clock.tick(Game.FPS)
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key in Game.arrows:
+                        self.movement(event.key)
 
             self.graphics()
 
@@ -47,6 +61,4 @@ class Game:
         sys.exit()
 
 if __name__ == "__main__":
-    s = Snake()
-    print(s.x)
     g = Game()
