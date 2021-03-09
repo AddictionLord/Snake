@@ -6,19 +6,18 @@ class Snake:
         self.__x = 20 # 0 - 45
         self.__y = 15 # 0 - 30
         self.__body = [[self.__x, self.__y],[19, 15],[18, 15],[17, 15],[16, 15]] #Edit to list comprehension
-        self.__last_body = self.__body.copy()
         self.__colour = (0, 255, 0) # RGB - Green
         self.__move = [0, 0, 0, 0] # Up, Down, Left, Right
 
 
     def draw_snake(self, screen, timer):
         if timer % 10 == 0:
-            self.__body = [[self.__x, self.__y]] 
+            body_new = [[self.__x, self.__y]] 
             
-            for i in range(len(self.__last_body) - 1):
-                self.__body.append(self.__last_body[i])
+            for i in range(len(self.__body) - 1):
+                body_new.append(self.__body[i])
             
-            self.__last_body= self.__body.copy()
+            self.__body = body_new.copy()
             self.update(screen, timer)
 
         else:
@@ -27,7 +26,6 @@ class Snake:
 
     def update(self, screen, timer):
         for i in range(len(self.__body)):
-                # print(self.__body[0])
                 x_pos = self.nsize * self.__body[i][0]
                 y_pos = self.nsize * self.__body[i][1]
 
@@ -79,6 +77,13 @@ class Snake:
     def __go_right(self):
         self.__x += 1
 
+    
+    def get_position(self):
+        return (self.__x, self.__y)
 
-    def grow(self):
-        self.__ssize += 1
+    def get_body(self):
+        return self.__body
+
+
+    def grow(self, position):
+        self.__body.append(position)

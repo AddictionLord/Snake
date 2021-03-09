@@ -12,7 +12,7 @@ class Game:
     NODE_SIZE = 20
     WIDTH, HEIGHT = 900, 600
     ROWS = HEIGHT / NODE_SIZE
-    COMUMNS = WIDTH / NODE_SIZE
+    COLUMNS = WIDTH / NODE_SIZE
     WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
     # Title
@@ -29,12 +29,13 @@ class Game:
 
     def __init__(self):
         self.snake = Snake(Game.NODE_SIZE)
-        self.apple = Apple(Game.NODE_SIZE)
+        self.apple = Apple(Game.NODE_SIZE, Game.ROWS, Game.COLUMNS)
         self.node = Node(Game.NODE_SIZE)
+        self.snake.set_movement(pygame.K_RIGHT)
         self.main()
-       
+        
 
-    def graphics(self, timer):
+    def graphics(self, timer=0):
         Game.WIN.fill(Game.DARK_BLUE)  # insert tuple with RGB values
         self.apple.draw_apple(Game.WIN)
 
@@ -53,6 +54,7 @@ class Game:
         timer = 0
         while run:
             clock.tick(Game.FPS)
+            # print(clock.get_fps())
             timer += 1
             # print(pygame.time.get_ticks())
 
@@ -64,6 +66,18 @@ class Game:
                     if event.key in Game.arrows:
                         self.snake.set_movement(event.key)
 
+            if self.apple.get_position() == self.snake.get_position():
+                self.snake.grow(self.apple.get_position())
+                del self.apple
+                self.apple = Apple(Game.NODE_SIZE, Game.ROWS, Game.COLUMNS)
+
+            snake_head = list(self.snake.get_position())
+            snake_body = self.snake.get_body()
+            if snake_head in snake_body[1:len(snake_body)]:
+                run = False
+                raise("Game Over!")
+
+                
             self.graphics(timer)
 
         pygame.quit()
