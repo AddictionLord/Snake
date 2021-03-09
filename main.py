@@ -2,13 +2,17 @@ import pygame
 import sys
 from snk import *
 from fruit import *
+from cell import *
 
 
 class Game:
     pygame.init()
 
     # Screen
+    NODE_SIZE = 20
     WIDTH, HEIGHT = 900, 600
+    ROWS = HEIGHT / NODE_SIZE
+    COMUMNS = WIDTH / NODE_SIZE
     WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
     # Title
@@ -24,18 +28,20 @@ class Game:
     
 
     def __init__(self):
-        self.snake = Snake()
-        self.apple = Apple()
+        self.snake = Snake(Game.NODE_SIZE)
+        self.apple = Apple(Game.NODE_SIZE)
+        self.node = Node(Game.NODE_SIZE)
         self.main()
        
 
-    def graphics(self):
+    def graphics(self, timer):
         Game.WIN.fill(Game.DARK_BLUE)  # insert tuple with RGB values
-
         self.apple.draw_apple(Game.WIN)
-        self.snake.movement()
-        self.snake.draw_snake(Game.WIN)
 
+        if timer % 10 == 0:
+            self.snake.movement()  
+
+        self.snake.draw_snake(Game.WIN, timer)
         pygame.display.update()
 
 
@@ -44,8 +50,11 @@ class Game:
         run = True
 
         # Game loop
+        timer = 0
         while run:
             clock.tick(Game.FPS)
+            timer += 1
+            # print(pygame.time.get_ticks())
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -55,7 +64,7 @@ class Game:
                     if event.key in Game.arrows:
                         self.snake.set_movement(event.key)
 
-            self.graphics()
+            self.graphics(timer)
 
         pygame.quit()
         sys.exit()
