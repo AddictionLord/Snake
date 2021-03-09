@@ -26,15 +26,38 @@ class Game:
         self.snake = Snake()
         self.main()
 
-    def movement(self, order):
+
+    def set_movement(self, order):
+        if order == pygame.K_UP:
+            self.snake.move_up()
+        
+        if order == pygame.K_DOWN:
+            self.snake.move_down()
+        
         if order == pygame.K_LEFT:
-            move
-        pass
+            self.snake.move_left()
+        
+        if order == pygame.K_RIGHT:
+            self.snake.move_right()
+
+
+    def movement(self):
+        if self.snake.up:
+            self.snake.go_up()
+
+        elif self.snake.down:
+            self.snake.go_down()
+
+        elif self.snake.left:
+            self.snake.go_left()
+
+        elif self.snake.right:
+            self.snake.go_right()
         
 
     def graphics(self):
         Game.WIN.fill(Game.DARK_BLUE)  # insert tuple with RGB values
-        # self.movement()
+        self.movement()
         Game.WIN.blit(self.snake.head, (self.snake.x, self.snake.y))
         pygame.display.update()
 
@@ -53,7 +76,7 @@ class Game:
 
                 if event.type == pygame.KEYDOWN:
                     if event.key in Game.arrows:
-                        self.movement(event.key)
+                        self.set_movement(event.key)
 
             self.graphics()
 
