@@ -19,8 +19,8 @@ class Game:
     pygame.display.set_caption("Snake!")
 
     # Icon
-    ICON = pygame.image.load("icon/snake.png")
-    pygame.display.set_icon(ICON)
+    # ICON = pygame.image.load("icon/snake.png")
+    # pygame.display.set_icon(ICON)
 
     FPS = 60
     DARK_BLUE = (0, 0, 75) # RGB Values
@@ -39,12 +39,27 @@ class Game:
         Game.WIN.fill(Game.DARK_BLUE)  # insert tuple with RGB values
         self.apple.draw_apple(Game.WIN)
         
-        if timer % 10 == 0:
+        if timer % 7 == 0:
             self.snake.movement()  
         
         # self.snake.move_not_done()
         self.snake.draw_snake(Game.WIN, timer)
         pygame.display.update()
+
+
+    def check_eating(self):
+        if self.apple.get_position() == self.snake.get_position():
+            self.snake.grow(self.apple.get_position())
+            del self.apple
+            self.apple = Apple(Game.NODE_SIZE, Game.ROWS, Game.COLUMNS)
+
+
+    def check_collision(self):
+        snake_head = list(self.snake.get_position())
+        snake_body = self.snake.get_body()
+        if snake_head in snake_body[1:len(snake_body)]:
+            run = False
+            raise("Game Over!")
 
 
     def main(self):
@@ -64,18 +79,9 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key in Game.arrows:
                         self.snake.set_movement(event.key)
-                        
-            if self.apple.get_position() == self.snake.get_position():
-                self.snake.grow(self.apple.get_position())
-                del self.apple
-                self.apple = Apple(Game.NODE_SIZE, Game.ROWS, Game.COLUMNS)
 
-            snake_head = list(self.snake.get_position())
-            snake_body = self.snake.get_body()
-            if snake_head in snake_body[1:len(snake_body)]:
-                run = False
-                raise("Game Over!")
-
+            self.check_eating()
+            self.check_collision()
                 
             self.graphics(timer)
 
