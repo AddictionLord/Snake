@@ -1,12 +1,23 @@
 import pygame
 import random as r
+from snk import *
 
 class Apple:
-    def __init__(self, size, rows, cols):
+    def __init__(self, size, rows, cols, snake):
         self.size = size
-        self.__x = r.randint(0, cols - 1)
-        self.__y = r.randint(0, rows - 1)
+        self.snake = snake
+        self.rows = rows
+        self.cols = cols
+        self.__x, self.__y = self.generate_position() 
         self.__colour = (255, 0, 0) # RGB - Red
+
+    # This could slow the game down if snake occupy most game nodes
+    def generate_position(self):
+        position = [r.randint(0, self.cols - 1), r.randint(0, self.rows - 1)]
+        if position in self.snake.get_body():
+            self.generate_position()
+
+        return position[0], position[1]
 
     def draw_apple(self, screen):
         x_pos = self.size * self.__x

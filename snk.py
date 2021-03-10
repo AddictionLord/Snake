@@ -6,9 +6,8 @@ class Snake:
         self.__x = 20 # 0 - 45
         self.__y = 15 # 0 - 30
         self.__body = [[self.__x, self.__y],[19, 15],[18, 15],[17, 15],[16, 15]] #Edit to list comprehension
-        self.__colour = (0, 255, 0) # RGB - Green
         self.__move = [0, 0, 0, 0] # Up, Down, Left, Right
-        self.__move_set = False
+        self.__move_set = False # Added to fix movement bug
 
 
     def draw_snake(self, screen, timer):
@@ -32,9 +31,11 @@ class Snake:
                 y_pos = self.nsize * self.__body[i][1]
 
                 rect = pygame.Rect(x_pos, y_pos, self.nsize, self.nsize) # (pos_x, pos_y, width, height)
-                pygame.draw.rect(screen, self.__colour, rect) # (where_to_draw, colour, object)
+                pygame.draw.rect(screen, (0, 255, 0), rect) # (where_to_draw, colour, object)
 
 
+    # Movement can be set in 60FPS loop anytime. Once set, have to wait for slower loop
+    # to reset self.__move_set attribute to be set again 
     def set_movement(self, order):
         if not self.__move_set:
             if order == pygame.K_UP:
@@ -55,7 +56,7 @@ class Snake:
 
             self.__move_set = True
 
-
+    # Position is changed by movement in slower loop, however is set on faster - 60FPS loop
     def movement(self):
         if self.__move[0]:
             self.__go_up()
@@ -68,8 +69,6 @@ class Snake:
 
         elif self.__move[3]:
             self.__go_right()
-
-        # self.__move_done = False
     
 
     def __go_up(self):

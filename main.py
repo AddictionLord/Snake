@@ -19,9 +19,10 @@ class Game:
     pygame.display.set_caption("Snake!")
 
     # Icon
-    # ICON = pygame.image.load("icon/snake.png")
-    # pygame.display.set_icon(ICON)
+    ICON = pygame.image.load("icon/snake.png")
+    pygame.display.set_icon(ICON)
 
+    run = True
     FPS = 60
     DARK_BLUE = (0, 0, 75) # RGB Values
     arrows = [pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN]
@@ -29,7 +30,7 @@ class Game:
 
     def __init__(self):
         self.snake = Snake(Game.NODE_SIZE)
-        self.apple = Apple(Game.NODE_SIZE, Game.ROWS, Game.COLUMNS)
+        self.apple = Apple(Game.NODE_SIZE, Game.ROWS, Game.COLUMNS, self.snake)
         self.node = Node(Game.NODE_SIZE)
         self.snake.set_movement(pygame.K_RIGHT)
         self.main()
@@ -51,15 +52,14 @@ class Game:
         if self.apple.get_position() == self.snake.get_position():
             self.snake.grow(self.apple.get_position())
             del self.apple
-            self.apple = Apple(Game.NODE_SIZE, Game.ROWS, Game.COLUMNS)
+            self.apple = Apple(Game.NODE_SIZE, Game.ROWS, Game.COLUMNS, self.snake)
 
 
     def check_collision(self):
         snake_head = list(self.snake.get_position())
         snake_body = self.snake.get_body()
         if snake_head in snake_body[1:len(snake_body)]:
-            run = False
-            raise("Game Over!")
+            Game.run = False
 
 
     def main(self):
@@ -68,13 +68,13 @@ class Game:
 
         # Game loop
         timer = 0
-        while run:
+        while Game.run:
             clock.tick(Game.FPS)
             timer += 1
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    run = False
+                    Game.run = False
 
                 if event.type == pygame.KEYDOWN:
                     if event.key in Game.arrows:
