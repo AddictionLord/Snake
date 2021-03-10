@@ -38,10 +38,11 @@ class Game:
     def graphics(self, timer=0):
         Game.WIN.fill(Game.DARK_BLUE)  # insert tuple with RGB values
         self.apple.draw_apple(Game.WIN)
-
+        
         if timer % 10 == 0:
             self.snake.movement()  
-
+        
+        # self.snake.move_not_done()
         self.snake.draw_snake(Game.WIN, timer)
         pygame.display.update()
 
@@ -54,9 +55,7 @@ class Game:
         timer = 0
         while run:
             clock.tick(Game.FPS)
-            # print(clock.get_fps())
             timer += 1
-            # print(pygame.time.get_ticks())
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -65,7 +64,7 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key in Game.arrows:
                         self.snake.set_movement(event.key)
-
+                        
             if self.apple.get_position() == self.snake.get_position():
                 self.snake.grow(self.apple.get_position())
                 del self.apple
