@@ -88,7 +88,8 @@ class Snake:
         return (self.__x, self.__y)
 
     def get_body(self):
-        return self.__body
+        _, *body = self.__body
+        return body
 
     def grow(self, position):
         self.__body.append(position)
