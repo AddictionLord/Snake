@@ -37,6 +37,7 @@ class Game:
         
 
     def graphics(self, timer=0):
+
         Game.WIN.fill(Game.DARK_BLUE)  # insert tuple with RGB values
         self.apple.draw_apple(Game.WIN)
         
@@ -49,6 +50,7 @@ class Game:
 
 
     def check_eating(self):
+
         if self.apple.get_position() == self.snake.get_position():
             self.snake.grow(self.apple.get_position())
             del self.apple
@@ -56,16 +58,16 @@ class Game:
 
 
     def check_collision(self):
+
         snake_head = list(self.snake.get_position())
         out_of_map = snake_head[0] < 0 or snake_head[0] > 44 or snake_head[1] < 0 or snake_head[1] > 29  
-        # print(snake_head)
-        # print(out_of_map)
         snake_body = self.snake.get_body()
         if snake_head in snake_body or out_of_map:
             Game.run = False
 
 
     def main(self):
+        
         clock = pygame.time.Clock() 
         run = True
 

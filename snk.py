@@ -11,6 +11,7 @@ class Snake:
 
 
     def draw_snake(self, screen, timer):
+
         if timer % 7 == 0:
             body_new = [[self.__x, self.__y]] 
             
@@ -26,6 +27,7 @@ class Snake:
             
 
     def update(self, screen, timer):
+
         for i in range(len(self.__body)):
                 x_pos = self.nsize * self.__body[i][0] # node_size * x coordinate of body = actual position in pixels
                 y_pos = self.nsize * self.__body[i][1]
@@ -37,6 +39,7 @@ class Snake:
     # Movement can be set in 60FPS loop anytime. Once set, have to wait for slower loop
     # to reset self.__move_set attribute to be set again 
     def set_movement(self, order):
+
         if not self.__move_set:
             if order == pygame.K_UP:
                 if not self.__move[1]:
@@ -58,6 +61,7 @@ class Snake:
 
     # Position is changed by movement in slower loop, however is set on faster - 60FPS loop
     def movement(self):
+
         if self.__move[0]:
             self.__go_up()
 
