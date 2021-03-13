@@ -10,15 +10,14 @@ class AI:
     def A_star(self, start, target):
 
         if not self.open:
-            self.open.append(start) 
-
+            self.open.append(start)
         
 
         print(self.open)
 
 
     # Expannd state - returns list of possible states
-    def __expand(self, state):
+    def __expand(self, state): # [i, f(i), g(i), i-1]
 
         exp_states = list()
 
@@ -46,12 +45,22 @@ class AI:
         return correct
 
 
-    def heuristic(self, start, target):
+    # (stav i, hodnota f(i), hodnota g(i), předchůdce stavu i)
+    # f(i) = g(i) + h(i)        - h(i) = heuristic function
+    # g(j) = g(i) + c(i,j)      - c(i, j) = 1
+    def count(self):
+        pass
+
+
+
+    # Manhattan heuristic for 4 directional movement
+    def __heuristic(self, start, target):
 
         x_dist = abs(start[0] - target[0])
         y_dist = abs(start[1] - target[1])
 
         return x_dist + y_dist
+
 
 
 
