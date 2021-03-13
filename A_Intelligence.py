@@ -6,8 +6,6 @@ class AI:
         self.closed = list()
         self.snake = snake
 
-        return "Ahoj"
-
 
     def A_star(self, start, target):
 
@@ -48,8 +46,18 @@ class AI:
         return correct
 
 
+    def heuristic(self, start, target):
+
+        x_dist = abs(start[0] - target[0])
+        y_dist = abs(start[1] - target[1])
+
+        return x_dist + y_dist
+
+
 
 a = AI("ahoj")
+
 # a.A_star([1, 1], [2, 3])
+
 
 
