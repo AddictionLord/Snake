@@ -17,7 +17,7 @@ class AI:
 
 
     # Expannd state - returns list of possible states
-    def __expand(self, state): # [i, f(i), g(i), i-1]
+    def expand(self, state): # state = [i, f(i), g(i), i-1]
 
         exp_states = list()
 
@@ -34,7 +34,8 @@ class AI:
     # Removes map borders and snake occipied nodes from exp_states
     def __check_expanded(self, exp_states):
  
-        snake_body = self.snake.get_body()
+        # snake_body = self.snake.get_body()
+        snake_body = [[1, 0]]
         correct = list()
 
         for state in exp_states:
@@ -65,7 +66,7 @@ class AI:
 
 
 a = AI("ahoj")
-
+print(a.expand([0, 0]))
 # a.A_star([1, 1], [2, 3])
 
 
