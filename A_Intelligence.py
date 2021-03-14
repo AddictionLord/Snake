@@ -49,8 +49,8 @@ class AI:
     # Removes map borders and snake occipied nodes from exp_states
     def __check_expanded(self, exp_states): # exp_states = [[x, y], [x, y], [x, y], [x, y]]
  
-        # snake_body = self.snake.get_body()
-        snake_body = [[7,28],[7,29],[6, 29]]
+        snake_body = self.snake.get_body()
+        # snake_body = [[2, 29], [3, 29]] # This was for testing
         correct = list()
 
         for state in exp_states:
@@ -120,10 +120,8 @@ class AI:
         print("Path found!")
 
 
-a = AI("ahoj")
-
-print(a.A_star([0, 29], [7, 25]))
-# print(a.A_star([0, 29], [4, 29]))
+# a = AI("ahoj")
+# print(a.A_star([0, 29], [7, 25]))
 
 
 

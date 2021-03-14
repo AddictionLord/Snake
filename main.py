@@ -2,7 +2,7 @@ import pygame
 import sys
 from snk import *
 from fruit import *
-from cell import *
+from A_Intelligence import *
 
 
 class Game:
@@ -31,7 +31,7 @@ class Game:
     def __init__(self):
         self.snake = Snake(Game.NODE_SIZE)
         self.apple = Apple(Game.NODE_SIZE, Game.ROWS, Game.COLUMNS, self.snake)
-        self.node = Node(Game.NODE_SIZE)
+        # self.node = Node(Game.NODE_SIZE)
         self.snake.set_movement(pygame.K_RIGHT)
         self.main()
         
