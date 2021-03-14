@@ -16,7 +16,7 @@ class Apple:
 
         position = [r.randint(0, self.cols - 1), r.randint(0, self.rows - 1)]
         if position in self.snake.get_body():
-            self.generate_position()
+            position[0], position[1] = self.generate_position()
 
         return position[0], position[1]
 

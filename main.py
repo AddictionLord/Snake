@@ -31,7 +31,6 @@ class Game:
     def __init__(self):
         self.snake = Snake(Game.NODE_SIZE)
         self.apple = Apple(Game.NODE_SIZE, Game.ROWS, Game.COLUMNS, self.snake)
-        # self.node = Node(Game.NODE_SIZE)
         self.snake.set_movement(pygame.K_RIGHT)
         self.main()
         
@@ -44,7 +43,6 @@ class Game:
         if timer % 7 == 0:
             self.snake.movement()  
         
-        # self.snake.move_not_done()
         self.snake.draw_snake(Game.WIN, timer)
         pygame.display.update()
 
