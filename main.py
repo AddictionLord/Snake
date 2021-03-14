@@ -28,9 +28,12 @@ class Game:
     arrows = [pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN]
     
 
-    def __init__(self):
+    def __init__(self, player):
+        self.player = player
+        self.path = list()
         self.snake = Snake(Game.NODE_SIZE)
         self.apple = Apple(Game.NODE_SIZE, Game.ROWS, Game.COLUMNS, self.snake)
+        self.artint = AI(self.snake)
         self.snake.set_movement(pygame.K_RIGHT)
         self.main()
         
@@ -74,14 +77,40 @@ class Game:
         while Game.run:
             clock.tick(Game.FPS)
             timer += 1
-
+       
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     Game.run = False
 
-                if event.type == pygame.KEYDOWN:
-                    if event.key in Game.arrows:
-                        self.snake.set_movement(event.key)
+                if self.player:
+                    if event.type == pygame.KEYDOWN:
+                        if event.key in Game.arrows:
+                            self.snake.set_movement(event.key)
+
+            if not self.player:
+                snake_head = list(self.snake.get_position())
+                apple = list(self.apple.get_position())
+
+                if not self.path:
+                    del self.artint
+                    self.artint = AI(self.snake)
+                    print(snake_head, apple)
+                    self.path = self.artint.A_star(snake_head, apple)
+
+                if self.path[0] == snake_head:
+                    try:
+                        self.path.remove(snake_head)
+                    except ValueError:
+                        pass
+                else:
+                    m_next = self.path[0]
+
+                move = [m_next[0] - snake_head[0], m_next[1] - snake_head[1]]
+                self.snake.set_movement(move)
+
+                
+
+
 
             self.check_eating()
             self.check_collision()
@@ -92,4 +121,4 @@ class Game:
         sys.exit()
 
 if __name__ == "__main__":
-    g = Game()
+    g = Game(False)
