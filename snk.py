@@ -41,19 +41,19 @@ class Snake:
     def set_movement(self, order):
 
         if not self.__move_set:
-            if order == pygame.K_UP or order == [1, 0]:
+            if order == pygame.K_UP or order == [0, -1]:
                 if not self.__move[1]:
                     self.__move = [1, 0, 0, 0]
                 
-            if order == pygame.K_DOWN or order == [-1, 0]:
+            elif order == pygame.K_DOWN or order == [0, 1]:
                 if not self.__move[0]:
                     self.__move = [0, 1, 0, 0]
                 
-            if order == pygame.K_LEFT or order == [0, -1]:
+            elif order == pygame.K_LEFT or order == [-1, 0]:
                 if not self.__move[3]:
                     self.__move = [0, 0, 1, 0]
                 
-            if order == pygame.K_RIGHT or order == [0, 1]:
+            elif order == pygame.K_RIGHT or order == [1, 0]:
                 if not self.__move[2]:
                     self.__move = [0, 0, 0, 1]
 

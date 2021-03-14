@@ -49,8 +49,8 @@ class AI:
     # Removes map borders and snake occipied nodes from exp_states
     def __check_expanded(self, exp_states): # exp_states = [[x, y], [x, y], [x, y], [x, y]]
  
-        # snake_body = self.snake.get_body()
-        snake_body = [[2, 29], [3, 29]] # This was for testing
+        snake_body = self.snake.get_body()
+        # snake_body = [[2, 29], [3, 29]] # This was for testing
         correct = list()
 
         for state in exp_states:

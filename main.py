@@ -34,7 +34,8 @@ class Game:
         self.snake = Snake(Game.NODE_SIZE)
         self.apple = Apple(Game.NODE_SIZE, Game.ROWS, Game.COLUMNS, self.snake)
         self.artint = AI(self.snake)
-        self.snake.set_movement(pygame.K_RIGHT)
+
+        self.snake.set_movement(pygame.K_RIGHT) if self.player else print("AI")
         self.main()
         
 
@@ -66,6 +67,14 @@ class Game:
         if snake_head in snake_body or out_of_map:
             Game.run = False
 
+    
+    def generate_path(self, start, target):
+        del self.artint
+        self.artint = AI(self.snake)
+        # print(start, target)
+        self.path = self.artint.A_star(start, target)
+        # print(self.path)
+
 
     def main(self):
         
@@ -87,35 +96,38 @@ class Game:
                         if event.key in Game.arrows:
                             self.snake.set_movement(event.key)
 
+            self.check_eating()
+            self.check_collision()
+            
             if not self.player:
                 snake_head = list(self.snake.get_position())
                 apple = list(self.apple.get_position())
 
+                # print("Path: ", self.path)
                 if not self.path:
-                    del self.artint
-                    self.artint = AI(self.snake)
-                    print(snake_head, apple)
-                    self.path = self.artint.A_star(snake_head, apple)
+                    self.generate_path(snake_head, apple)
 
                 if self.path[0] == snake_head:
                     try:
                         self.path.remove(snake_head)
-                    except ValueError:
-                        pass
+                        m_next = self.path[0]
+                    except IndexError:
+                        self.generate_path(snake_head, apple)
+                        m_next = self.path[0]
                 else:
                     m_next = self.path[0]
 
                 move = [m_next[0] - snake_head[0], m_next[1] - snake_head[1]]
+                # print("Head: ", snake_head)
+                # print("Move: ", move)
+                # print()
                 self.snake.set_movement(move)
 
-                
-
-
-
-            self.check_eating()
-            self.check_collision()
-                
+            
             self.graphics(timer)
+
+
+
 
         pygame.quit()
         sys.exit()
