@@ -13,6 +13,8 @@ class AI:
             exp_states = self.__expand(start)
             self.__count(exp_states, [start, 0], target)
             
+
+
         while self.open:
 
             self.open.sort(key = lambda x:x[1]) # Sorts list according to f
@@ -20,11 +22,17 @@ class AI:
             exp_states = self.__expand(best[0])
             self.__count(exp_states, [best[0], best[2]], target)
             self.closed.append(best)
+            print("Got here", len(self.open), len(self.closed))
 
             for state in self.open:
                 if state[0] == target:
                     self.closed.append(state)
+                    print("Closed finished")
+                    print(True) if target in self.snake.get_body() else print(False)
+                    print(True) if target in self.snake.get_position() else print(False)
+                    print("Head: ", start, "Apple: ", target)
                     self.__find_path(state[0], state[3][0])
+                    print("Found path")
                         
                     return self.path[::-1]
 
@@ -79,10 +87,10 @@ class AI:
 
             for index, open_state in enumerate(self.open, start = 1):
                 if cnt_state[0] == open_state[0]:
-                    # it used to be cnt_state[3] < open_state[3] but is not correct probably
-                    # print(cnt_state[2], open_state[2])
                     if cnt_state[2] < open_state[2]:
-                        open_state = cnt_state
+                        print("Open state before: ", open_state)
+                        self.open[index - 1] = cnt_state #Tohle asi nezmění stav v self.open
+                        print("Open state after: ", open_state)
                         break
                     else:
                         break
@@ -90,6 +98,20 @@ class AI:
                 else:
                     if index == len(self.open):
                         self.open.append(cnt_state)
+
+            # for index, open_state in enumerate(self.open, start = 1):
+            #     if cnt_state[0] == open_state[0]:
+            #         if cnt_state[2] < open_state[2]:
+            #             print("Open state before: ", open_state)
+            #             open_state = cnt_state #Tohle asi nezmění stav v self.open
+            #             print("Open state after: ", open_state)
+            #             break
+            #         else:
+            #             break
+
+            #     else:
+            #         if index == len(self.open):
+            #             self.open.append(cnt_state)
 
 
     # Manhattan heuristic for 4 directional movement
@@ -105,15 +127,20 @@ class AI:
 
         self.path.append(current)
         found = False
+        for i in self.closed:
+            print(i)
+            
         while not found:
 
             for state in self.closed:
                 if state[0] == ancestor and state[2] == 1:
+                    print(1)
                     self.path.append(state[0])
                     self.closed.remove(state)
                     found = True
 
                 elif state[0] == ancestor:
+                    print(2)
                     self.path.append(state[0])
                     current = state[0]
                     ancestor = state[3][0]

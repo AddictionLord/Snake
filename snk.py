@@ -96,7 +96,8 @@ class Snake:
         return body
 
     def grow(self, position):
-        self.__body.append(position)
+        for i in range(20):
+            self.__body.append(position)
 
     def move_not_done(self):
         self.__move_done = False

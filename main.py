@@ -42,12 +42,13 @@ class Game:
     def graphics(self, timer=0):
 
         Game.WIN.fill(Game.DARK_BLUE)  # insert tuple with RGB values
-        self.apple.draw_apple(Game.WIN)
+        
         
         if timer % 7 == 0:
             self.snake.movement()  
         
         self.snake.draw_snake(Game.WIN, timer)
+        self.apple.draw_apple(Game.WIN)
         pygame.display.update()
 
 
@@ -66,12 +67,14 @@ class Game:
         snake_body = self.snake.get_body()
         if snake_head in snake_body or out_of_map:
             Game.run = False
+            print("Game Over")
 
     
     def generate_path(self, start, target):
         del self.artint
         self.artint = AI(self.snake)
         # print(start, target)
+        print("before A*")
         self.path = self.artint.A_star(start, target)
         # print(self.path)
 
@@ -118,9 +121,6 @@ class Game:
                     m_next = self.path[0]
 
                 move = [m_next[0] - snake_head[0], m_next[1] - snake_head[1]]
-                # print("Head: ", snake_head)
-                # print("Move: ", move)
-                # print()
                 self.snake.set_movement(move)
 
             
