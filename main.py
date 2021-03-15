@@ -103,7 +103,6 @@ class Game:
                 snake_head = list(self.snake.get_position())
                 apple = list(self.apple.get_position())
 
-                # print("Path: ", self.path)
                 if not self.path:
                     self.generate_path(snake_head, apple)
 
@@ -123,11 +122,10 @@ class Game:
             
             self.graphics(timer)
 
-
-
-
         pygame.quit()
         sys.exit()
+
+
 
 if __name__ == "__main__":
     g = Game(False)
