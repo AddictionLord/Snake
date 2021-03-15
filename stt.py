@@ -44,6 +44,15 @@ class State:
 # numbers = {'second': 2, 'first': 1, 'third': 3, 'Fourth': 4}
 # print(list(numbers))
 
+# numbers = {}
+# if "Ahoj" in numbers.keys():
+#     print(True)
+# else:
+#     print(False)
+
+# numbers.pop("first")
+# print(list(numbers))
+
 
 # a = State([0, 1], None, [2, 2])
 # b = State([0, 0], a, [2, 2])
@@ -61,3 +70,10 @@ class State:
 # print(adresses)
 # print(adresses[1].state)
 
+# l = [1, 2, 3, 4]
+# opne = [2]
+
+# for i in l:
+#     if i in opne:
+#         continue
+#     print(i)

@@ -73,10 +73,7 @@ class Game:
     def generate_path(self, start, target):
         del self.artint
         self.artint = AI(self.snake)
-        # print(start, target)
-        print("before A*")
         self.path = self.artint.A_star(start, target)
-        # print(self.path)
 
 
     def main(self):
