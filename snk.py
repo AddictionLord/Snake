@@ -5,7 +5,7 @@ class Snake:
         self.nsize = size
         self.__x = 20 # 0 - 45
         self.__y = 15 # 0 - 30
-        self.__body = [[self.__x, self.__y],[19, 15],[18, 15],[17, 15],[16, 15]] #Edit to list comprehension
+        self.__body = [[self.__x - i, self.__y] for i in range(5)]
         self.__move = [0, 0, 0, 0] # Up, Down, Left, Right
         self.__move_set = False # Added to fix movement bug
 
@@ -20,13 +20,13 @@ class Snake:
             
             self.__body = body_new.copy()
             self.__move_set = False
-            self.update(screen, timer)
+            self.__update(screen, timer)
 
         else:
-            self.update(screen, timer)
+            self.__update(screen, timer)
             
 
-    def update(self, screen, timer):
+    def __update(self, screen, timer):
 
         for i in range(len(self.__body)):
                 x_pos = self.nsize * self.__body[i][0] # node_size * x coordinate of body = actual position in pixels

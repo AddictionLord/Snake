@@ -1,4 +1,4 @@
-from stt import *
+from stt import State
 
 class AI:
     def __init__(self, snake):
@@ -15,7 +15,7 @@ class AI:
 
         while self.open:
 
-            best = self.sort_and_pick()
+            best = self.__sort_and_pick()
             key = str(best.state)
             self.open.pop(key)
             self.closed[key] = best
@@ -34,7 +34,7 @@ class AI:
         print("Path not found")
         
 
-    def sort_and_pick(self):
+    def __sort_and_pick(self):
 
         adresses = sorted(self.open.values(), key=self.getKey)
         return adresses[0]
@@ -42,10 +42,11 @@ class AI:
 
     def getKey(self, state):
 
-        return state.f
+        # return state.f
+        return state.get_f()
 
 
-    # (stav i, hodnota f(i), hodnota g(i), předchůdce stavu i)
+    # (state i, value f(i), value g(i), ancestor i)
     # f(i) = g(i) + h(i)        - h(i) = heuristic function
     # g(j) = g(i) + c(i,j)      - c(i, j) = 1
     def __count(self, exp_states, ancestor, target): # exp_states = [[0, 0], [2, 0], [1, 1]], ancestor = adress to ancestor, target = [x, y]
@@ -105,10 +106,5 @@ class AI:
 
         self.path.append(current.state)
         self.__find_path(anc)
-
-
-# a = AI("ahoj")
-# print(a.A_star([0, 0], [5, 5]))
-
 
 

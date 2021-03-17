@@ -1,26 +1,26 @@
 class State:
     def __init__(self, state, ancestor, target):
         self.state = state
-        self.f = None
-        self.g = None
+        self.__f = None
+        self.__g = None
         self.ancestor = ancestor
         self.target = target
-        self.count()
+        self.__count()
 
     def __repr__ (self):
 
-        repr_str = "{}, {}, {}, {}".format(self.state, self.f, self.g, self.ancestor.state if self.ancestor != None else None)
+        repr_str = "{}, {}, {}, {}".format(self.state, self.__f, self.__g, self.ancestor.state if self.ancestor != None else None)
         return repr_str
 
 
-    def count(self):
+    def __count(self):
 
         if self.ancestor == None:
-            self.g = 0
+            self.__g = 0
         else:
-            self.g = self.ancestor.get_d() + 1
+            self.__g = self.ancestor.get_d() + 1
 
-        self.f = self.g + self.__heuristic(self.state, self.target)
+        self.__f = self.__g + self.__heuristic(self.state, self.target)
 
 
     def __heuristic(self, start, target):
@@ -33,4 +33,9 @@ class State:
 
     def get_d(self):
 
-        return self.g
+        return self.__g
+
+
+    def get_f(self):
+
+        return self.__f

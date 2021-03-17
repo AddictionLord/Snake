@@ -1,8 +1,8 @@
 import pygame
 import sys
-from snk import *
-from fruit import *
-from A_Intelligence import *
+from snk import Snake
+from fruit import Apple
+from A_Intelligence import AI
 
 
 class Game:
@@ -28,7 +28,7 @@ class Game:
     arrows = [pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN]
     
 
-    def __init__(self, player):
+    def __init__(self, player): # Set player = True if want to play, otherwise for AI
         self.player = player
         self.path = list()
         self.snake = Snake(Game.NODE_SIZE)
@@ -76,6 +76,27 @@ class Game:
         self.path = self.artint.A_star(start, target)
 
 
+    def artificial_inttelligence(self):
+        snake_head = list(self.snake.get_position())
+        apple = list(self.apple.get_position())
+
+        if not self.path:
+            self.generate_path(snake_head, apple)
+
+        if self.path[0] == snake_head:
+            try:
+                self.path.remove(snake_head)
+                m_next = self.path[0]
+            except IndexError:
+                self.generate_path(snake_head, apple)
+                m_next = self.path[0]
+        else:
+            m_next = self.path[0]
+
+        move = [m_next[0] - snake_head[0], m_next[1] - snake_head[1]]
+        self.snake.set_movement(move)
+
+
     def main(self):
         
         clock = pygame.time.Clock() 
@@ -100,24 +121,7 @@ class Game:
             self.check_collision()
             
             if not self.player:
-                snake_head = list(self.snake.get_position())
-                apple = list(self.apple.get_position())
-
-                if not self.path:
-                    self.generate_path(snake_head, apple)
-
-                if self.path[0] == snake_head:
-                    try:
-                        self.path.remove(snake_head)
-                        m_next = self.path[0]
-                    except IndexError:
-                        self.generate_path(snake_head, apple)
-                        m_next = self.path[0]
-                else:
-                    m_next = self.path[0]
-
-                move = [m_next[0] - snake_head[0], m_next[1] - snake_head[1]]
-                self.snake.set_movement(move)
+                self.artificial_inttelligence()
 
             
             self.graphics(timer)
@@ -129,3 +133,5 @@ class Game:
 
 if __name__ == "__main__":
     g = Game(False)
+
+# Set g=Game(True) to play yourself, False for AI
