@@ -45,7 +45,9 @@ class Game:
 
         # self.menu = Button("Main menu", 80, 450, 150)
         self.buttons = [Button("Main menu", 80, 450, 150),
-                        ]
+                        Button("Player", 60, 450, 250),
+                        Button("A*", 60, 450, 325),
+                        Button("Exit", 60, 450, 420)]
 
 
         menu = True
@@ -71,12 +73,14 @@ class Game:
 
         if draw == "Menu":
             Game.WIN.fill((0, 0, 0))
+            self.buttons[0].draw_button(Game.WIN, (255, 255, 255))
 
-            if self.buttons[0].x_border == None:
+
+            if self.buttons[1].x_border == None:
                 for button in self.buttons:
                     button.draw_button(Game.WIN, (255, 255, 255))
 
-            for button in self.buttons: # self.buttons[1:]:
+            for button in self.buttons[1:]:
                 if button.is_over(pos):
                     button.draw_button(Game.WIN, (255, 255, 0))
                 else:
