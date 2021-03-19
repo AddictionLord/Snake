@@ -3,6 +3,7 @@ import sys
 from snk import Snake
 from fruit import Apple
 from A_Intelligence import AI
+from button import *
 
 
 class Game:
@@ -35,20 +36,66 @@ class Game:
         self.apple = Apple(Game.NODE_SIZE, Game.ROWS, Game.COLUMNS, self.snake)
         self.artint = AI(self.snake)
 
-        self.snake.set_movement(pygame.K_RIGHT) if self.player else print("AI")
-        self.main()
+        self.snake.set_movement(pygame.K_RIGHT) if self.player else print("AI") # This belongs to main_menu
+        self.main_menu()
+       # self.main()
         
 
-    def graphics(self, timer=0):
+    def main_menu(self):
 
-        Game.WIN.fill(Game.DARK_BLUE)  # insert tuple with RGB values
-        
-        
-        if timer % 7 == 0:
-            self.snake.movement()  
-        
-        self.snake.draw_snake(Game.WIN, timer)
-        self.apple.draw_apple(Game.WIN)
+        # self.menu = Button("Main menu", 80, 450, 150)
+        self.buttons = [Button("Main menu", 80, 450, 150),
+                        ]
+
+
+        menu = True
+        while menu:
+
+            pos = pygame.mouse.get_pos()
+            
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    menu = False
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        menu = False
+                        break
+
+                
+
+            self.graphics(draw="Menu", pos=pos)
+
+
+    def graphics(self, timer=0, draw=None, pos=None):
+
+        if draw == "Menu":
+            Game.WIN.fill((0, 0, 0))
+
+            if self.buttons[0].x_border == None:
+                for button in self.buttons:
+                    button.draw_button(Game.WIN, (255, 255, 255))
+
+            for button in self.buttons: # self.buttons[1:]:
+                if button.is_over(pos):
+                    button.draw_button(Game.WIN, (255, 255, 0))
+                else:
+                    button.draw_button(Game.WIN, (255, 255, 255))
+
+            # self.draw_button("Player", 60, 450, 250)
+            # self.draw_button("A*", 60, 450, 325)
+            # self.draw_button("Exit", 60, 450, 420)
+
+
+        else:
+            Game.WIN.fill(Game.DARK_BLUE)  # insert tuple with RGB values
+                    
+            if timer % 7 == 0:
+                self.snake.movement()  
+            
+            self.snake.draw_snake(Game.WIN, timer)
+            self.apple.draw_apple(Game.WIN)
+
         pygame.display.update()
 
 
@@ -97,10 +144,12 @@ class Game:
         self.snake.set_movement(move)
 
 
+
+
     def main(self):
         
         clock = pygame.time.Clock() 
-        run = True
+        # run = True
 
         # Game loop
         timer = 0
@@ -112,8 +161,11 @@ class Game:
                 if event.type == pygame.QUIT:
                     Game.run = False
 
-                if self.player:
-                    if event.type == pygame.KEYDOWN:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.main_menu()
+
+                    if self.player:
                         if event.key in Game.arrows:
                             self.snake.set_movement(event.key)
 
