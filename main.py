@@ -3,7 +3,7 @@ import sys
 from snk import Snake
 from fruit import Apple
 from A_Intelligence import AI
-from button import *
+from button import Button
 
 
 class Game:
@@ -29,26 +29,22 @@ class Game:
     arrows = [pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN]
     
 
-    def __init__(self, player): # Set player = True if want to play, otherwise for AI
-        self.player = player
+    def __init__(self): # Set player = True if want to play, otherwise for AI
+        self.player = None
         self.path = list()
         self.snake = Snake(Game.NODE_SIZE)
         self.apple = Apple(Game.NODE_SIZE, Game.ROWS, Game.COLUMNS, self.snake)
         self.artint = AI(self.snake)
-
-        self.snake.set_movement(pygame.K_RIGHT) if self.player else print("AI") # This belongs to main_menu
+        self.score = 0
         self.main_menu()
-       # self.main()
         
 
     def main_menu(self):
 
-        # self.menu = Button("Main menu", 80, 450, 150)
         self.buttons = [Button("Main menu", 80, 450, 150),
                         Button("Player", 60, 450, 250),
                         Button("A*", 60, 450, 325),
                         Button("Exit", 60, 450, 420)]
-
 
         menu = True
         while menu:
@@ -64,7 +60,24 @@ class Game:
                         menu = False
                         break
 
-                
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.buttons[1].is_over(pos):
+                        self.snake.set_movement(pygame.K_RIGHT) #if self.player else print("AI")
+                        print("Player")
+                        self.player = True
+                        self.path = list()
+                        self.main()
+
+                    elif self.buttons[2].is_over(pos):
+                        print("Artificial intelligence - A* algorithm")
+                        self.player = False
+                        self.main()
+
+                    elif self.buttons[3].is_over(pos):
+                        menu = False
+                        pygame.quit()
+                        sys.exit()
+                        break
 
             self.graphics(draw="Menu", pos=pos)
 
@@ -82,14 +95,9 @@ class Game:
 
             for button in self.buttons[1:]:
                 if button.is_over(pos):
-                    button.draw_button(Game.WIN, (255, 255, 0))
+                    button.draw_button(Game.WIN, (0, 191, 255))
                 else:
                     button.draw_button(Game.WIN, (255, 255, 255))
-
-            # self.draw_button("Player", 60, 450, 250)
-            # self.draw_button("A*", 60, 450, 325)
-            # self.draw_button("Exit", 60, 450, 420)
-
 
         else:
             Game.WIN.fill(Game.DARK_BLUE)  # insert tuple with RGB values
@@ -122,12 +130,14 @@ class Game:
 
     
     def generate_path(self, start, target):
+
         del self.artint
         self.artint = AI(self.snake)
         self.path = self.artint.A_star(start, target)
 
 
     def artificial_inttelligence(self):
+
         snake_head = list(self.snake.get_position())
         apple = list(self.apple.get_position())
 
@@ -148,12 +158,9 @@ class Game:
         self.snake.set_movement(move)
 
 
-
-
     def main(self):
         
         clock = pygame.time.Clock() 
-        # run = True
 
         # Game loop
         timer = 0
@@ -187,7 +194,7 @@ class Game:
 
 
 
-if __name__ == "__main__":
-    g = Game(False)
 
-# Set g=Game(True) to play yourself, False for AI
+if __name__ == "__main__":
+    g = Game()
+
